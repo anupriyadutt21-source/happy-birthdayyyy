@@ -1,172 +1,184 @@
 import streamlit as st
 import os
 
-# ---------------- PAGE SETTINGS ----------------
+# ============================================================
+# PAGE CONFIG
+# ============================================================
 
 st.set_page_config(
     page_title="Happy Birthday Veduuu ❤️",
-    page_icon="❤️",
+    page_icon="🎂",
     layout="wide"
 )
 
-# ---------------- CSS ----------------
+# ============================================================
+# CSS
+# ============================================================
+
+st.markdown("""
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap');
+
+.stApp {
+    background: linear-gradient(135deg, #120b12, #29101f, #120b12);
+    color: white;
+}
+
+header {
+    visibility: hidden;
+}
+
+footer {
+    visibility: hidden;
+}
+
+#MainMenu {
+    visibility: hidden;
+}
+
+.title {
+    text-align: center;
+    font-family: "Great Vibes", cursive;
+    font-size: 100px;
+    color: #ffb7d1;
+    text-shadow: 0 0 30px rgba(255,105,180,0.5);
+    margin-top: 40px;
+}
+
+.subtitle {
+    text-align: center;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 30px;
+    color: #ffd5e3;
+}
+
+.small-title {
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #ffc4da;
+    font-size: 13px;
+}
+
+.hero-heart {
+    text-align: center;
+    font-size: 30px;
+    color: #ffd2e2;
+}
+
+.section-title {
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #ffc4da;
+    font-size: 12px;
+    margin-top: 80px;
+}
+
+.section-heading {
+    text-align: center;
+    font-family: "Great Vibes", cursive;
+    font-size: 65px;
+    color: #ffd0df;
+}
+
+.description {
+    text-align: center;
+    color: #c9adb8;
+    font-size: 16px;
+}
+
+.memory-caption {
+    text-align: center;
+    color: #ffffff;
+    font-family: "Great Vibes", cursive;
+    font-size: 25px;
+    margin-top: 5px;
+}
+
+.letter {
+    max-width: 850px;
+    margin: 50px auto;
+    background: #fffaf7;
+    color: #49353c;
+    padding: 55px;
+    border-radius: 12px;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 20px;
+    line-height: 1.7;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+}
+
+.letter h2 {
+    text-align: center;
+    font-family: "Great Vibes", cursive;
+    color: #b24e77;
+    font-size: 42px;
+}
+
+.poem {
+    text-align: center;
+    color: #7b4a5b;
+    font-style: italic;
+    margin: 35px 0;
+}
+
+.special {
+    text-align: center;
+    color: #b14d76;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.big-love {
+    text-align: center;
+    color: #b14d76;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.signature {
+    text-align: center;
+    font-family: "Great Vibes", cursive;
+    color: #b14d76;
+    font-size: 35px;
+}
+
+.ending {
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.ending-title {
+    font-family: "Great Vibes", cursive;
+    font-size: 70px;
+    color: #ffd0df;
+}
+
+.ending-text {
+    color: #d9bdc8;
+    font-size: 18px;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+
+# ============================================================
+# SESSION STATE
+# ============================================================
+
+if "letter_open" not in st.session_state:
+    st.session_state.letter_open = False
+
+
+# ============================================================
+# HERO
+# ============================================================
 
 st.markdown(
-    """
-    <style>
-    
-    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap');
-
-    .stApp {
-        background: linear-gradient(135deg, #160b13, #351525, #160b13);
-        color: white;
-    }
-
-    header {
-        visibility: hidden;
-    }
-
-    footer {
-        visibility: hidden;
-    }
-
-    #MainMenu {
-        visibility: hidden;
-    }
-
-    .title {
-        text-align: center;
-        font-family: 'Great Vibes', cursive;
-        font-size: 100px;
-        color: #ffb6d0;
-        margin-top: 50px;
-        text-shadow: 0 0 30px #ff6f9f;
-    }
-
-    .subtitle {
-        text-align: center;
-        font-family: 'Poppins', sans-serif;
-        color: #ffdce8;
-        font-size: 22px;
-    }
-
-    .small {
-        text-align: center;
-        color: #e8b7c8;
-        letter-spacing: 4px;
-        text-transform: uppercase;
-        font-size: 12px;
-    }
-
-    .section {
-        text-align: center;
-        font-family: 'Great Vibes', cursive;
-        font-size: 60px;
-        color: #ffd0df;
-        margin-top: 80px;
-    }
-
-    .letter {
-        background: #fffaf7;
-        color: #49353c;
-        padding: 45px;
-        border-radius: 12px;
-        max-width: 850px;
-        margin: auto;
-        font-family: Georgia, serif;
-        font-size: 19px;
-        line-height: 1.8;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-    }
-
-    .poem {
-        text-align: center;
-        color: #9b5270;
-        font-style: italic;
-        margin: 35px 0;
-    }
-
-    .special {
-        text-align: center;
-        color: #b24e77;
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-    .signature {
-        text-align: center;
-        color: #b24e77;
-        font-family: 'Great Vibes', cursive;
-        font-size: 35px;
-    }
-
-    .memory {
-        background: white;
-        padding: 10px 10px 20px 10px;
-        margin-bottom: 30px;
-        box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-    }
-
-    .caption {
-        color: #613f4c;
-        text-align: center;
-        font-family: 'Great Vibes', cursive;
-        font-size: 23px;
-        margin-top: 10px;
-    }
-
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-# ---------------- FLOATING HEARTS ----------------
-
-st.markdown(
-    """
-    <div style="
-        position:fixed;
-        top:10%;
-        left:8%;
-        font-size:30px;
-        opacity:0.3;
-        z-index:0;
-    ">♡</div>
-
-    <div style="
-        position:fixed;
-        top:30%;
-        right:10%;
-        font-size:25px;
-        opacity:0.3;
-        z-index:0;
-    ">♥</div>
-
-    <div style="
-        position:fixed;
-        bottom:20%;
-        left:15%;
-        font-size:25px;
-        opacity:0.3;
-        z-index:0;
-    ">♡</div>
-
-    <div style="
-        position:fixed;
-        bottom:10%;
-        right:15%;
-        font-size:30px;
-        opacity:0.3;
-        z-index:0;
-    ">♥</div>
-    """,
-    unsafe_allow_html=True
-)
-
-# ---------------- HERO ----------------
-
-st.markdown(
-    '<p class="small">A little birthday surprise for</p>',
+    '<div class="small-title">A little birthday surprise for</div>',
     unsafe_allow_html=True
 )
 
@@ -176,44 +188,60 @@ st.markdown(
 )
 
 st.markdown(
-    '<div style="text-align:center;font-size:30px;">♡ ✦ ♡</div>',
+    '<div class="hero-heart">♡ ✦ ♡</div>',
     unsafe_allow_html=True
 )
 
 st.markdown(
-    '<p class="subtitle">Happy Birthday, birthday boy 🎂</p>',
+    '<div class="subtitle">Happy Birthday, birthday boy 🎂</div>',
     unsafe_allow_html=True
 )
 
 st.markdown(
-    '<p style="text-align:center;color:#dcb5c5;">Made with lots of love ❤️</p>',
+    '<p style="text-align:center;color:#d7aebb;">Made with lots of love ❤️</p>',
     unsafe_allow_html=True
 )
 
-# ---------------- OPEN LETTER ----------------
+st.write("")
 
-if "open" not in st.session_state:
-    st.session_state.open = False
+# ============================================================
+# OPEN LETTER BUTTON
+# ============================================================
 
-if st.button("💌 Open Your Letter", use_container_width=True):
+button_col1, button_col2, button_col3 = st.columns([1, 2, 1])
 
-    st.session_state.open = True
+with button_col2:
 
-    st.balloons()
+    if st.button(
+        "💌 Open Your Letter",
+        use_container_width=True
+    ):
+        st.session_state.letter_open = True
+        st.balloons()
+        st.rerun()
 
-# ---------------- YOUTUBE MUSIC ----------------
 
-if st.session_state.open:
+# ============================================================
+# YOUTUBE MUSIC
+# ============================================================
+
+if st.session_state.letter_open:
 
     st.markdown(
         """
-        <div style="text-align:center;color:#ffc5d9;font-size:18px;">
-        🎵 Your birthday song is playing ❤️
+        <div style="
+            text-align:center;
+            margin-top:25px;
+            color:#ffc4da;
+            font-size:17px;
+        ">
+        🎵 Birthday song for you ❤️
         </div>
         """,
         unsafe_allow_html=True
     )
 
+    # Your YouTube video
     st.markdown(
         """
         <iframe
@@ -227,17 +255,33 @@ if st.session_state.open:
         unsafe_allow_html=True
     )
 
-# ---------------- MEMORIES ----------------
+
+# ============================================================
+# MEMORIES
+# ============================================================
 
 st.markdown(
-    '<div class="section">Our Little Memories 🤍</div>',
+    '<div class="section-title">Our Little Memories</div>',
     unsafe_allow_html=True
 )
 
 st.markdown(
-    '<p style="text-align:center;color:#cbaeba;">A few little pieces of us that I want to remember forever.</p>',
+    '<div class="section-heading">Moments I Want To Keep 🤍</div>',
     unsafe_allow_html=True
 )
+
+st.markdown(
+    '<div class="description">A few little pieces of us that I want to remember forever.</div>',
+    unsafe_allow_html=True
+)
+
+st.write("")
+
+# ============================================================
+# PHOTO FILES
+# ============================================================
+
+base_folder = os.path.dirname(os.path.abspath(__file__))
 
 photos = [
     ("Photo1.jpg.png", "One of my favourite memories ♡"),
@@ -248,35 +292,54 @@ photos = [
     ("Photo6.jpg.jpeg", "My favourite birthday boy ❤️")
 ]
 
-columns = st.columns(3)
+# ============================================================
+# DISPLAY PHOTOS
+# ============================================================
 
-for i, (photo, caption) in enumerate(photos):
+col1, col2, col3 = st.columns(3)
 
-    with columns[i % 3]:
+columns = [col1, col2, col3]
 
-        if os.path.exists(photo):
+for index, (filename, caption) in enumerate(photos):
 
-            st.markdown('<div class="memory">', unsafe_allow_html=True)
+    image_path = os.path.join(base_folder, filename)
 
-            st.image(photo, use_container_width=True)
+    with columns[index % 3]:
+
+        if os.path.exists(image_path):
+
+            st.image(
+                image_path,
+                use_container_width=True
+            )
 
             st.markdown(
-                f'<div class="caption">{caption}</div>',
+                f'<div class="memory-caption">{caption}</div>',
                 unsafe_allow_html=True
             )
 
-            st.markdown('</div>', unsafe_allow_html=True)
+            st.write("")
 
         else:
 
-            st.warning(f"{photo} not found")
+            st.error(
+                f"Photo not found: {filename}"
+            )
 
-# ---------------- LETTER ----------------
 
-if st.session_state.open:
+# ============================================================
+# LOVE LETTER
+# ============================================================
+
+if st.session_state.letter_open:
 
     st.markdown(
-        '<div class="section">From My Heart To Yours ❤️</div>',
+        '<div class="section-title">From My Heart To Yours</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        '<div class="section-heading">To My Veduuu ❤️</div>',
         unsafe_allow_html=True
     )
 
@@ -291,7 +354,7 @@ if st.session_state.open:
 
         <p>
         I have been thinking about what to write for you because a simple
-        “Happy Birthday” could never possibly hold everything I feel for you.
+        "Happy Birthday" could never possibly hold everything I feel for you.
         </p>
 
         <p>
@@ -303,9 +366,7 @@ if st.session_state.open:
         but every single day.
         </p>
 
-        <h2 style="text-align:center;color:#b24e77;">
-        A little poem for you… 🌷
-        </h2>
+        <h2>A little poem for you… 🌷</h2>
 
         <div class="poem">
 
@@ -375,9 +436,7 @@ if st.session_state.open:
         Those are the moments I want to keep forever.
         </p>
 
-        <h2 style="text-align:center;color:#b24e77;">
-        For the birthday boy… 🎂
-        </h2>
+        <h2>For the birthday boy… 🎂</h2>
 
         <div class="poem">
 
@@ -423,10 +482,22 @@ if st.session_state.open:
         </p>
 
         <p>
-        Thank you for every laugh.<br>
-        Thank you for every conversation.<br>
-        Thank you for every memory.<br>
-        Thank you for every little effort.<br>
+        Thank you for every laugh.
+        </p>
+
+        <p>
+        Thank you for every conversation.
+        </p>
+
+        <p>
+        Thank you for every memory.
+        </p>
+
+        <p>
+        Thank you for every little effort.
+        </p>
+
+        <p>
         Thank you for simply being <strong>you.</strong>
         </p>
 
@@ -458,6 +529,27 @@ if st.session_state.open:
         <p>
         And I hope you never forget that.
         </p>
+
+        <h2>One last little piece for you… 🌷</h2>
+
+        <div class="poem">
+
+        If someday the years pass by,<br>
+        and life takes us somewhere new,<br>
+        I hope when you think of happiness,<br>
+        one little memory leads to you.<br><br>
+
+        I hope you remember the laughter,<br>
+        the silly things we used to say,<br>
+        the countless little moments,<br>
+        that quietly made our days.<br><br>
+
+        And if someone asks you someday,<br>
+        "What made that time so sweet?"<br>
+        I hope you smile just a little,<br>
+        and remember the hearts that used to meet. ❤️
+
+        </div>
 
         <p>
         My Veduuu,
@@ -521,7 +613,7 @@ if st.session_state.open:
         <strong>Veduuu</strong> that I know. ❤️
         </p>
 
-        <p class="special">
+        <p class="big-love">
         Happy Birthday, my Veduuu. 🎂❤️
         </p>
 
@@ -543,35 +635,31 @@ if st.session_state.open:
         unsafe_allow_html=True
     )
 
-# ---------------- END ----------------
 
-if st.session_state.open:
+# ============================================================
+# ENDING
+# ============================================================
+
+if st.session_state.letter_open:
 
     st.markdown(
         """
-        <div style="
-            text-align:center;
-            padding:100px 20px;
-        ">
+        <div class="ending">
 
         <div style="font-size:45px;">
         🤍 🌹 🤍 🌹 🤍
         </div>
 
-        <div style="
-            font-family:'Great Vibes',cursive;
-            font-size:70px;
-            color:#ffd0df;
-        ">
+        <div class="ending-title">
         Happy Birthday, Veduuu ❤️
         </div>
 
-        <p style="color:#d9bdc8;">
+        <p class="ending-text">
         May this year bring you beautiful memories,
-        happiness, success and countless reasons to smile. 🌷
+        happiness, success and countless reasons to smile.
         </p>
 
-        <div style="font-size:45px;">
+        <div style="font-size:45px;margin-top:30px;">
         🌷 🌷 🌷
         </div>
 
